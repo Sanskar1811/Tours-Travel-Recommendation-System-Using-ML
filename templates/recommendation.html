@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Travel Recommendation </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+    </head>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #007bff, #0056b3);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .overlay {
+            background: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+    
+        .container {
+            position: relative;
+            z-index: 2;
+            margin-top: 5%;
+            width: 95%; /* Makes the container wider */
+            max-width: 1400px; /* Increases maximum width for larger screens */
+            margin-left: auto;
+            margin-right: auto; /* Centers the container */
+        }
+    
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+        }
+    
+        h1, h2 {
+            font-weight: bold;
+            color: #007bff;
+        }
+    
+        .text-center {
+            margin-bottom: 20px;
+        }
+    
+        .form-label {
+            font-weight: 500;
+        }
+    
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+    
+        .form-control:focus, .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+    
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        .btn-custom:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+    
+        .recommendations-table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 100%;
+            background: #f8f9fa;
+        }
+    
+        .recommendations-table th {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+        }
+    
+        .recommendations-table td {
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+    
+        .recommendations-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    
+        .alert-info {
+            background-color: #d9edf7;
+            color: #31708f;
+            border-radius: 10px;
+            padding: 15px;
+            font-weight: 500;
+        }
+    </style>
+    
+
+
+    <body>
+        <div class = "overlay">
+            <div class = "container">
+                <div class = "row justify-content-center">
+                    <div class = "col-md-8">
+                        <div class = "form-container" style="background: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 10px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);">
+                            <h1 class="text-center" style="font-size: 2.5rem; font-weight: bold; color: #007bff; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); margin-bottom: 15px;">Travel Recommendation System</h1>
+                            <p class="text-center" style="font-size: 1.2rem; color: white; background-color:black; radius:5%;  border-radius:5%; % margin-bottom: 20px;">Enter Your Details To Get Personalized Travel Recommendations</p>
+                        
+                            <form action="/recommend" method="POST">
+                                <div class = "row">
+                                    <div class = "col-md-4 mb-3">
+                                        <label for="UserId" class="form-label"> User ID </label>
+                                        <input type = "number" id = "userId" name = "user_id" class = "form-control" placeholder = "Enter Your User ID" required>
+                                    </div>
+
+                                    <div class = "col-md-4 mb-3">
+                                        <label for="name" class="form-label"> Destination Name </label>
+                                        <select name = "name" id = "name" class = "form-select">
+                                            <option value = ""> Select Destination </option>
+                                            <option value = "Jaipur City"> Jaiput City </option>
+                                            <option value = "Taj Mahal"> Taj Mahal </option>  
+                                            <option value = "Kerala Backwaters"> Kerala Backwaters </option>  
+                                            <option value = "Goa Beaches"> Goa Beaches </option>  
+                                            <option value = "Leh Ladakh"> Leh Ladakh </option>   
+                                        </select>
+                                    </div>
+
+
+                                    <div class = "col-md-4 mb-3">
+                                        <label for="type" class="form-label"> Type </label>
+                                        <select name = "type" id = "type" class = "form-select">
+                                            <option value = ""> Select Type </option>
+                                            <option value = "City"> City </option>
+                                            <option value = "Historical"> Historical </option>
+                                            <option value = "Nature"> Nature </option>
+                                            <option value = "Beach"> Beach </option>
+                                            <option value = "Adventure"> Adventure </option>
+
+                                        </select>
+                                    </div>
+
+                                </div>
+
+
+                                <div class = "row">
+                                    <div class = "col-md-4 mb-3">
+                                        <label for="state" class="form-label"> State </label>
+                                        <select id = "state" name = "state" class = "form-select" required>
+                                            <option value = ""> Select State </option>
+                                            <option value = "Rajasthan"> Jaiput City </option>
+                                            <option value = "Uttar Pradesh"> Taj Mahal </option>
+                                            <option value = "Kerala"> Kerala </option>
+                                            <option value = "Goa"> Goa </option>
+                                            <option value = "Jammu and Kashmir"> Jammu and Kashmir </option>   
+                                        </select>
+                                    </div>
+
+                                    <div class = "col-md-4 mb-3">
+                                        <label for="bestTime" class="form-label"> Best Time To Visit </label>
+                                        <select id = "bestTime" name = "best_time" class= "form-select" required>
+                                            <option value = ""> Select Best Time </option>
+                                            <option value = "Oct-Mar"> Oct-Mar </option>
+                                            <option value = "Nov-Feb"> Nov-Feb </option> 
+                                            <option value = "Sep-Mar"> Sep-Mar </option>   
+                                            <option value = "Nov-Mar"> Nov-Mar </option>   
+                                            <option value = "Apr-Jun"> Apr-Jun </option>   
+                                        </select>
+                                    </div>
+
+
+                                    <div class = "col-md-4 mb-3">
+                                        <label for="preferences" class="form-label"> Preferences </label>
+                                        <select id = "preferences" name = "preferences" class = "form-select" required>
+                                            <option value = ""> Select Preferences </option>
+                                            <option value = "City, Historical"> City, Historical </option>
+                                            <option value = "Nature, Adventure"> Nature, Adventure </option>
+                                            <option value = "Beaches, Historical"> Beaches, Historical </option>                                            
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class = "row">
+                                    <div class = "col-md-4 mb-3">
+                                        <label for="gender" class="form-label"> Gender </label>
+                                        <select id = "gender" name = "gender" class = "form-select" required>
+                                            <option value = ""> Select Gender </option>
+                                            <option value = "Female"> Female </option>
+                                            <option value = "Male"> Male </option>
+                                        </select>
+                                    </div>
+
+                                    <div class = "col-md-4 mb-3">
+                                        <label for="adults" class="form-label"> Number of Adults </label>
+                                        <input type = "number" id = "adults" name = "adults" class = "form-control" placeholder = "Enter number of adults" required> 
+
+                                    </div>
+
+
+                                    <div class = "col-md-4 mb-3">
+                                        <label for="children" class="form-label"> Number of Children </label>
+                                        <input type = "number" id = "children" name = "children" class = "form-control" placeholder = "Enter number of children" required> 
+
+                                    </div>
+
+                                </div>
+                                <button type = "submit" class = "btn btn-custom mt-3 "> Get Recommendations </button>
+
+
+                            </form>
+                            
+                            
+
+                            <!--  Displaying the recommendations table -->
+                            {% if predicted_popularity %}
+
+                                <div class="mt-4 text-center">
+                                    <h2>Recommended Destinations</h2>
+                                    <div class="table-responsive">
+                                        <table class = "table table-bordered recommendations-table">
+                                        <thead>
+                                            <tr>
+                                                <th> Destination </th>
+                                                <th> State </th>
+                                                <th> Type </th>
+                                                <th> BestTimeToVisit </th>
+                                                <th> Popularity </th>
+                                            
+                                            </tr>
+                                    
+                                        </thead>    
+                                        <tbody> 
+                                            {% for destination in recommended_destinations.itertuples() %}
+
+                                                    <tr>
+                                                        <td> {{ destination.Name }} </td>
+                                                        <td> {{ destination.State }} </td>
+                                                        <td> {{ destination.Type }} </td>
+                                                        <td> {{ destination.BestTimeToVisit }} </td>
+                                                        <td> {{ destination.Popularity }} </td>
+
+                                                    </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                </table>
+                             </div>
+                            </div>
+                            {% endif %}
+
+                            <!--  Display Popularity  -->
+                            <div class="alert alert-info mt-4 text-center" role="alert">
+                                <strong>Predicted Popularity Score : </strong> {{ predicted_popularity }}
+                            </div>
+        
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
